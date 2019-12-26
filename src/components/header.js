@@ -3,12 +3,50 @@ import PropTypes from "prop-types"
 import React, { useContext } from "react"
 import { FirebaseContext } from "./Firebase"
 import styled from "styled-components"
+import { userInfo } from "os"
 
 const LogoutLink = styled.span`
   color: white;
   cursor: pointer;
   &:hover {
     text-decoration: underline;
+  }
+`
+
+const HeaderWrapper = styled.header`
+  background: rebeccapurple;
+  margin-bottom: 1.45rem;
+`
+
+const HeaderContent = styled.div`
+  margin: 0 auto;
+  max-width: 960;
+  padding: 1.45rem 1.0875rem;
+  display: flex;
+
+  > h1 {
+    margin: 0;
+    flex-grow: 1;
+
+    > a {
+      color: white;
+      text-decoration: none;
+    }
+  }
+  > div {
+    margin: auto 0;
+  }
+`
+
+const UserInfo = styled.div`
+  text-align: right;
+  color: white;
+`
+
+const LoginLink = styled.div`
+  margin: auto 0;
+  > a {
+    color: white;
   }
 `
 
@@ -21,48 +59,28 @@ const Header = ({ siteTitle }) => {
   }
 
   return (
-    <header
-      style={{
-        background: `rebeccapurple`,
-        marginBottom: `1.45rem`,
-      }}
-    >
-      <div
-        style={{
-          margin: `0 auto`,
-          maxWidth: 960,
-          padding: `1.45rem 1.0875rem`,
-          display: "flex",
-        }}
-      >
-        <h1 style={{ margin: 0, flexGrow: 1 }}>
-          <Link
-            to="/"
-            style={{
-              color: `white`,
-              textDecoration: `none`,
-            }}
-          >
-            {siteTitle}
-          </Link>
+    <HeaderWrapper>
+      <HeaderContent>
+        <h1>
+          <Link to="/">{siteTitle}</Link>
         </h1>
-        <div style={{ margin: "auto 0" }}>
+        <div>
           {!!user && !!user.email && (
-            <div>
+            <UserInfo>
               Hello, {user.email}
-              <div style={{ textAlign: "right" }}>
+              <div>
                 <LogoutLink onClick={handleLogoutClick}>Logout</LogoutLink>
               </div>
-            </div>
+            </UserInfo>
           )}
           {(!user || !user.email) && (
-            <div>
+            <LoginLink>
               <Link to="/login">Login</Link>
-            </div>
+            </LoginLink>
           )}
         </div>
-      </div>
-    </header>
+      </HeaderContent>
+    </HeaderWrapper>
   )
 }
 
