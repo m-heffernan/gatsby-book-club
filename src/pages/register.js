@@ -1,9 +1,10 @@
 import React, { useState, useContext } from "react"
-import { Button, Input, Form } from "../components/common"
+import { Button, Input, Form, ErrorMessage } from "../components/common"
 import { FirebaseContext } from "../components/Firebase"
 
 const Register = () => {
   const { firebase } = useContext(FirebaseContext)
+  const [errorMessage, setErrorMessage] = useState("")
 
   const [formValues, setFormValues] = useState({
     email: "",
@@ -13,6 +14,7 @@ const Register = () => {
 
   function handleInputChange(e) {
     e.persist()
+    setErrorMessage("")
     setFormValues(currentValues => ({
       ...currentValues,
       [e.target.name]: e.target.value,
@@ -21,15 +23,18 @@ const Register = () => {
 
   function handleSubmit(e) {
     e.preventDefault()
-
     if (formValues.password === formValues.confirmPassword) {
-      firebase.register({
-        email: formValues.email,
-        password: formValues.password,
-      })
+      firebase
+        .register({
+          email: formValues.email,
+          password: formValues.password,
+        })
+        .catch(error => {
+          setErrorMessage(error.message)
+        })
+    } else {
+      setErrorMessage("Password and Confirm Password do not match!")
     }
-
-    console.log(formValues)
   }
 
   return (
@@ -48,7 +53,7 @@ const Register = () => {
         placeholder="password"
         type="password"
         required
-        minLength={3}
+        minLength={6}
         name="password"
       />
       <Input
@@ -57,9 +62,10 @@ const Register = () => {
         placeholder="confirm password"
         type="password"
         required
-        minLength={3}
+        minLength={6}
         name="confirmPassword"
       />
+      {!!errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
       <Button type="submit" block>
         Register
       </Button>
