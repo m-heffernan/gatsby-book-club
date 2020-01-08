@@ -10,6 +10,7 @@ const Register = () => {
     email: "",
     password: "",
     confirmPassword: "",
+    username: "",
   })
 
   function handleInputChange(e) {
@@ -26,6 +27,7 @@ const Register = () => {
     if (formValues.password === formValues.confirmPassword) {
       firebase
         .register({
+          username: formValues.username,
           email: formValues.email,
           password: formValues.password,
         })
@@ -39,6 +41,14 @@ const Register = () => {
 
   return (
     <Form onSubmit={handleSubmit}>
+      <Input
+        onChange={handleInputChange}
+        value={formValues.username}
+        placeholder="username"
+        type="text"
+        required
+        name="username"
+      />
       <Input
         onChange={handleInputChange}
         value={formValues.email}
