@@ -1,6 +1,5 @@
 import React, { useState, useContext } from "react"
-import { Link } from "gatsby"
-import { useAuth, FirebaseContext } from "../components/Firebase"
+import { FirebaseContext } from "../components/Firebase"
 import { Form, Input, Button, ErrorMessage } from "../components/common"
 
 const Login = () => {

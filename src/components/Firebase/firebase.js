@@ -32,6 +32,11 @@ class Firebase {
       })
   }
 
+  async subscribeToBookComments({ bookId }) {
+    const bookRef = this.db.collection("books").doc(bookId)
+    return this.db.collection("comments").where("book", "==", bookRef)
+  }
+
   async login({ email, password }) {
     return this.auth.signInWithEmailAndPassword(email, password)
   }
