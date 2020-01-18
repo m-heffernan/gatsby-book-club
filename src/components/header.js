@@ -3,7 +3,6 @@ import PropTypes from "prop-types"
 import React, { useContext } from "react"
 import { FirebaseContext } from "./Firebase"
 import styled from "styled-components"
-import { userInfo } from "os"
 
 const LogoutLink = styled.span`
   color: white;
